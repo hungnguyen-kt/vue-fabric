@@ -3,7 +3,11 @@
         <div id="container">
             <canvas ref="c" id="canvas" width="800" height="800"></canvas>
         </div>
-        <right-side-bar-component @upload-img="uploadImg" />
+        <right-side-bar-component
+            @upload-img="uploadImg"
+            @selectLibrary="uploadImgWithSVG"
+            @addText="addText"
+        />
     </div>
 </template>
 
@@ -17,6 +21,11 @@ export default {
     data() {
         return {
             canvas: null,
+            config: {
+                borderColor: '#000',
+                cornerColor: '#000',
+                cornerStyle: 'circle'
+            },
             angle: 0
         }
     },
@@ -66,14 +75,26 @@ export default {
         uploadImgWithSVG(url) {
             fabric.loadSVGFromURL(url, (objects, options) => {
                 let svg = fabric.util.groupSVGElements(objects, options)
+                svg.set({ ...this.config })
                 this.canvas.add(svg)
             })
         },
 
         uploadImgNormal(url) {
             fabric.Image.fromURL(url, (myImg) => {
+                myImg.set({ ...this.config })
                 this.canvas.add(myImg)
             })
+        },
+
+        addText(text) {
+            const textbox = new fabric.Textbox(text, {
+                left: 50,
+                top: 50,
+                ...this.config
+            });
+
+            this.canvas.add(textbox);
         }
     }
 }
