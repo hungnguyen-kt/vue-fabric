@@ -54,7 +54,6 @@ export default {
 .right-sidebar {
     width: 300px;
     height: 100vh;
-    border-left: 1px solid #000;
     padding: 8px;
     box-sizing: border-box;
 }
@@ -78,7 +77,7 @@ export default {
     overflow: hidden;
     padding: 4px;
     box-sizing: border-box;
-    border: 1px solid #000;
+    border: 1px solid rgb(206 212 218);
     margin-bottom: 8px;
     border-radius: 4px;
     cursor: pointer;

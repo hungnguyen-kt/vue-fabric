@@ -1,6 +1,8 @@
 <template>
     <div id="app">
         <div id="container">
+            <input v-if="objectSelected" class="range" type="range" v-model="filter" id="vol" name="vol" min="0" max="10" step="1" @change="handleFilter()">
+            <button v-if="objectSelected" class="remove" @click="remove">Remove</button>
             <canvas ref="c" id="canvas" width="800" height="800"></canvas>
         </div>
         <right-side-bar-component
@@ -21,11 +23,13 @@ export default {
     data() {
         return {
             canvas: null,
+            filter: 10,
             config: {
                 borderColor: '#000',
                 cornerColor: '#000',
                 cornerStyle: 'circle'
             },
+            objectSelected: null,
             angle: 0
         }
     },
@@ -44,6 +48,12 @@ export default {
                 },
                 'object:modified': (e) => {
                     e.target.opacity = 1
+                },
+                'selection:created': (e) => {
+                    this.objectSelected = e
+                },
+                'selection:cleared': () => {
+                    this.objectSelected = null
                 }
             })
         })
@@ -95,6 +105,21 @@ export default {
             });
 
             this.canvas.add(textbox);
+        },
+
+        handleFilter() {
+            const obj = this.canvas.getActiveObject()
+            obj.filters(fabric.Image.filters.Grayscale())
+            obj.applyFilters(this.canvas.renderAll.bind(this.canvas));
+            // if (obj.filters[5]) {
+            //     obj.filters[5]['brightness'] = this.filter / 10;
+            //     obj.applyFilters();
+            //     this.canvas.renderAll();
+            // }
+        },
+
+        remove() {
+            this.canvas.remove(this.canvas.getActiveObject())
         }
     }
 }
@@ -114,5 +139,39 @@ body {
     color: #2c3e50;
     display: flex;
     flex-direction: row;
+}
+
+#container {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#container .range {
+    position: absolute;
+    z-index: 10;
+    top: 20px;
+    right: 20px;
+}
+
+#container .remove {
+    position: absolute;
+    z-index: 10;
+    top: 60px;
+    right: 20px;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: rgb(0 0 0 / 0%);
+    border: 1px solid rgb(0 0 0 / 0%);
+    font-size: 1rem;
+    border-radius: .25rem;
+    box-sizing: border-box;
+    color: rgb(220 53 69);
+    border-color: rgb(220 53 69);
 }
 </style>
