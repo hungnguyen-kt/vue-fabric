@@ -14,7 +14,7 @@
         <div class="text-box">
             <form @submit.prevent="addText()">
                 <textarea v-model.trim="text" placeholder="Input text here"></textarea>
-                <button type="button" @click="addText()">Add Text</button>
+                <button type="button" class="btn btn-add" @click="addText()">Add Text</button>
             </form>
         </div>
     </div>
@@ -105,20 +105,7 @@ form textarea {
     box-sizing: border-box;
 }
 
-form button {
-    display: inline-block;
-    font-weight: 400;
-    line-height: 1.5;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    cursor: pointer;
-    background-color: rgb(0 0 0 / 0%);
-    border: 1px solid rgb(0 0 0 / 0%);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    border-radius: .25rem;
-    box-sizing: border-box;
+.btn-add {
     color: rgb(25 135 84);
     border-color: rgb(25 135 84);
 }
