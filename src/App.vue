@@ -119,6 +119,7 @@ export default {
 
         handleFilter(brightness) {
             const obj = this.canvas.getActiveObject()
+            if (!obj.filters) return
             obj.filters[0] = new fabric.Image.filters.Brightness({ brightness: brightness })
             obj.applyFilters()
             this.canvas.requestRenderAll()
